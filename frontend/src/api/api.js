@@ -2,7 +2,7 @@ import axios from 'axios'
 
 const BACKEND_URI = 'http://localhost:5001/api';
 
-export const GetEmployeeList = async (data) => {
+export const GetEmployeeList = async () => {
     try{
         const response = await axios.get(`${BACKEND_URI}/employeeList`,{
             method : "GET"

@@ -28,4 +28,17 @@ const addEmployee = async (req,res) => {
     }
 }
 
-module.exports = {fetchEmployees,addEmployee};
+const deactivateEmployee = async (req,res) => {
+    const {EmployeeID} = req.body; 
+    try{
+        const result = await Employee.updateOne({_id:EmployeeID},{$set : {Status : false}});
+        res.status(201).json({
+            message : "Employee Deactivated!"
+        })
+    }catch(error){
+        console.log("Error changing status:" ,error);
+        res.status(500).json({message:"Server error!"});
+    }
+}
+
+module.exports = {fetchEmployees,addEmployee,deactivateEmployee};

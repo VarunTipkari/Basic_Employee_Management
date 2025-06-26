@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   Box,
   Button,
@@ -17,44 +17,14 @@ import {
 } from '@mui/material';
 import { Add } from '@mui/icons-material';
 import { format } from 'date-fns';
+import Skeleton from 'react-loading-skeleton'
+import 'react-loading-skeleton/dist/skeleton.css'
+import { GetEmployeeList } from '../api/api';
 
 const Homepage = () => {
   // Sample employee data
-  const [employees, setEmployees] = useState([
-    {
-      id: 1,
-      firstName: 'John',
-      lastName: 'Doe',
-      dob: new Date(1990, 5, 15),
-      gender: 'Male',
-      email: 'john.doe@example.com',
-      phone: '555-123-4567',
-      address: '123 Main St, Anytown, USA',
-      department: 'Engineering'
-    },
-    {
-      id: 2,
-      firstName: 'Jane',
-      lastName: 'Smith',
-      dob: new Date(1985, 8, 22),
-      gender: 'Female',
-      email: 'jane.smith@example.com',
-      phone: '555-987-6543',
-      address: '456 Oak Ave, Somewhere, USA',
-      department: 'Marketing'
-    },
-    {
-      id: 3,
-      firstName: 'Robert',
-      lastName: 'Johnson',
-      dob: new Date(1978, 2, 10),
-      gender: 'Male',
-      email: 'robert.j@example.com',
-      phone: '555-456-7890',
-      address: '789 Pine Rd, Nowhere, USA',
-      department: 'Sales'
-    }
-  ]);
+  const [employees, setEmployees] = useState();
+  const [loading,setLoading] = useState(true);
 
   const handleRowClick = (employeeId) => {
     console.log('Employee clicked:', employeeId);
@@ -65,6 +35,25 @@ const Homepage = () => {
     console.log('Add new employee clicked');
     // Open add employee modal or navigate to form
   };
+
+  useEffect(()=>{
+    const fetchEmployees = async ()=> {
+      try{
+        const data = await GetEmployeeList();
+        setEmployees(data);
+      }catch(error){
+        console.log(error);
+      }
+    }
+
+    fetchEmployees();
+  });
+
+  useEffect(()=>{
+    if(employees != null){
+        setLoading(false);
+    }
+  });
 
   return (
     <Box sx={{ backgroundColor: '#f5f7fa', minHeight: '100vh' }}>
@@ -108,10 +97,10 @@ const Homepage = () => {
               </TableRow>
             </TableHead>
             <TableBody>
-              {employees.map((employee) => (
+              { loading ? console.log("loading") : employees.map((employee) => (
                 <TableRow
-                  key={employee.id}
-                  onClick={() => handleRowClick(employee.id)}
+                  key={employee._id}
+                  onClick={() => handleRowClick(employee._id)}
                   hover
                   sx={{ 
                     cursor: 'pointer',
@@ -121,21 +110,21 @@ const Homepage = () => {
                   <TableCell>
                     <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
                       <Avatar sx={{ bgcolor: '#1a237e' }}>
-                        {employee.firstName.charAt(0)}{employee.lastName.charAt(0)}
+                        {employee.FirstName.charAt(0)}{employee.LastName.charAt(0)}
                       </Avatar>
                       <Typography>
-                        {employee.firstName} {employee.lastName}
+                        {employee.FirstName} {employee.LastName}
                       </Typography>
                     </Box>
                   </TableCell>
-                  <TableCell>{format(employee.dob, 'MM/dd/yyyy')}</TableCell>
-                  <TableCell>{employee.gender}</TableCell>
-                  <TableCell>{employee.email}</TableCell>
-                  <TableCell>{employee.phone}</TableCell>
-                  <TableCell>{employee.address}</TableCell>
+                  <TableCell>{format(employee.DOB, 'MM/dd/yyyy')}</TableCell>
+                  <TableCell>{employee.Gender}</TableCell>
+                  <TableCell>{employee.Email}</TableCell>
+                  <TableCell>{employee.Phone}</TableCell>
+                  <TableCell>{employee.Address}</TableCell>
                   <TableCell>
                     <Chip 
-                      label={employee.department} 
+                      label={employee.Department} 
                       sx={{ 
                         backgroundColor: '#bbdefb',
                         color: '#0d47a1'
@@ -148,7 +137,7 @@ const Homepage = () => {
           </Table>
 
           {/* Empty state */}
-          {employees.length === 0 && (
+          {employees == [] && (
             <Box sx={{ 
               display: 'flex', 
               justifyContent: 'center', 
