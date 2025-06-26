@@ -14,7 +14,8 @@ import {
   Chip,
   AppBar,
   Toolbar,
-  Container
+  Container,
+  CircularProgress
 } from '@mui/material';
 import { Add } from '@mui/icons-material';
 import { format } from 'date-fns';
@@ -29,8 +30,7 @@ const Homepage = () => {
   const Navigate = useNavigate();
 
   const handleRowClick = (employeeId) => {
-    console.log('Employee clicked:', employeeId);
-    // Navigate to detail view or open edit modal
+    Navigate(`/Profile/${encodeURIComponent(employeeId)}`)
   };
 
   const handleAddEmployee = () => {
@@ -98,7 +98,11 @@ const Homepage = () => {
               </TableRow>
             </TableHead>
             <TableBody>
-              { loading ? console.log("loading") : employees.map((employee) => (
+              { loading ? 
+              <Box sx={{ display: 'flex', justifyContent: 'center', py: 5 }}>
+                            <CircularProgress />
+                          </Box>
+              : employees.map((employee) => (
                 <TableRow
                   key={employee._id}
                   onClick={() => handleRowClick(employee._id)}

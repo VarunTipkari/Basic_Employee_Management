@@ -29,6 +29,7 @@ const AddEmp = () => {
       if(response.message == 'Employee Added!'){
             setLoading(false);
             alert(response.message);
+            Navigate('/Home')
       }
     }catch(error){
       setLoading(false);

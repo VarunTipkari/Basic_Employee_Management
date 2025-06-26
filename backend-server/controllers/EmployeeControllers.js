@@ -31,14 +31,35 @@ const addEmployee = async (req,res) => {
 const deactivateEmployee = async (req,res) => {
     const {EmployeeID} = req.body; 
     try{
-        const result = await Employee.updateOne({_id:EmployeeID},{$set : {Status : false}});
-        res.status(201).json({
-            message : "Employee Deactivated!"
-        })
+        const result = await Employee.findOneAndUpdate({_id:EmployeeID},{$set : {Status : false}},{new:true});
+        res.json(result);
     }catch(error){
         console.log("Error changing status:" ,error);
         res.status(500).json({message:"Server error!"});
     }
 }
 
-module.exports = {fetchEmployees,addEmployee,deactivateEmployee};
+const employeeDetails = async (req,res) => {
+    const {EmployeeID} = req.query;
+    try{
+        const response = await Employee.findOne({_id : EmployeeID});
+        res.json(response);
+    }catch(error){
+        console.log("Error fetching details : ",error);
+        res.status(500).json({message: "Server error!"});
+    }
+}
+
+const updateEmployee = async (req,res) => {
+    try{
+        const response =  await Employee.findOneAndReplace({_id : req.body._id},req.body);
+        res.status(201).json({
+            message : "Employee Updated!"
+        })
+    }catch(error){
+        console.log("Error updating employee:" ,error);
+        res.status(500).json({message:"Server error!"});
+    }
+}
+
+module.exports = {fetchEmployees,addEmployee,deactivateEmployee,employeeDetails,updateEmployee};
