@@ -13,3 +13,16 @@ export const GetEmployeeList = async () => {
         throw error;
     }
 }
+
+export const AddEmployee = async (data) => {
+    try{
+        const response = await axios.post(`${BACKEND_URI}/addEmployee`,data,{
+            method : "POST"
+        });
+        console.log("Employee added succesfully!");
+        return response.data;
+    }catch(error){
+        console.error("Error adding employee!",error);
+        throw error;
+    }
+}

@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import {useNavigate} from 'react-router-dom';
 import {
   Box,
   Button,
@@ -25,6 +26,7 @@ const Homepage = () => {
   // Sample employee data
   const [employees, setEmployees] = useState();
   const [loading,setLoading] = useState(true);
+  const Navigate = useNavigate();
 
   const handleRowClick = (employeeId) => {
     console.log('Employee clicked:', employeeId);
@@ -32,8 +34,7 @@ const Homepage = () => {
   };
 
   const handleAddEmployee = () => {
-    console.log('Add new employee clicked');
-    // Open add employee modal or navigate to form
+    Navigate('/Add');
   };
 
   useEffect(()=>{
