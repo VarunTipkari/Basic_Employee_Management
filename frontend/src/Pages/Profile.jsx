@@ -1,0 +1,297 @@
+import React from 'react';
+import {
+  Box,
+  Button,
+  Typography,
+  Paper,
+  AppBar,
+  Toolbar,
+  Container,
+  Avatar,
+  Chip,
+  Divider,
+  List,
+  ListItem,
+  ListItemText,
+  ListItemIcon
+} from '@mui/material';
+import {
+  ArrowBack,
+  Edit,
+  Cake,
+  Person,
+  Email,
+  Phone,
+  Home,
+  Work
+} from '@mui/icons-material';
+
+const Profile = () => {
+  // Sample employee data
+  const employee = {
+    id: 1,
+    firstName: 'John',
+    lastName: 'Doe',
+    dob: new Date(1990, 5, 15),
+    gender: 'Male',
+    email: 'john.doe@example.com',
+    phone: '555-123-4567',
+    address: '123 Main St, Anytown, USA',
+    department: 'Engineering',
+    status: 'Active'
+  };
+
+  const [isActive, setIsActive] = React.useState(employee.status === 'Active');
+
+  const handleStatusToggle = () => {
+    setIsActive(!isActive);
+    // Add API call to update status in backend
+  };
+
+  const handleEdit = () => {
+    console.log('Edit employee:', employee.id);
+    // Navigate to edit page
+  };
+
+  return (
+    <Box sx={{ backgroundColor: '#f5f7fa', minHeight: '100vh' }}>
+      {/* App Bar - Consistent with other components */}
+      <AppBar position="static" sx={{ backgroundColor: '#1a237e', mb: 4 }}>
+        <Toolbar>
+          <Button 
+            startIcon={<ArrowBack />}
+            sx={{ color: '#ffffff', mr: 2 }}
+          >
+            Back
+          </Button>
+          <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
+            Employee Management
+          </Typography>
+        </Toolbar>
+      </AppBar>
+
+      {/* Main Content */}
+      <Container maxWidth="lg">
+        <Paper elevation={3} sx={{ p: 4 }}>
+          {/* Header with Status */}
+          <Box sx={{ 
+            display: 'flex', 
+            justifyContent: 'space-between', 
+            alignItems: 'center', 
+            mb: 3 
+          }}>
+            <Typography variant="h5" sx={{ fontWeight: 500 }}>
+              Employee Profile
+            </Typography>
+            <Chip 
+              label={isActive ? 'Active' : 'Inactive'} 
+              sx={{ 
+                backgroundColor: isActive ? '#4caf50' : '#f44336',
+                color: 'white',
+                fontWeight: 'bold',
+                fontSize: '0.875rem',
+                px: 1.5,
+                py: 0.5,
+                borderRadius: '12px',
+                boxShadow: '0 2px 4px rgba(0,0,0,0.1)'
+              }} 
+            />
+          </Box>
+          <Divider sx={{ mb: 4 }} />
+
+          {/* Profile Content */}
+          <Box sx={{ display: 'flex', gap: 4 }}>
+            {/* Left Side - Employee Info */}
+            <Box sx={{ flex: 1 }}>
+              {/* Employee Avatar and Name */}
+              <Box sx={{ 
+                display: 'flex', 
+                alignItems: 'center', 
+                gap: 3, 
+                mb: 4,
+                p: 2,
+                backgroundColor: '#f8f9fa',
+                borderRadius: '8px'
+              }}>
+                <Avatar sx={{ 
+                  width: 100, 
+                  height: 100, 
+                  bgcolor: '#1a237e',
+                  fontSize: '2.5rem'
+                }}>
+                  {employee.firstName.charAt(0)}{employee.lastName.charAt(0)}
+                </Avatar>
+                <Box>
+                  <Typography variant="h4" sx={{ fontWeight: 500 }}>
+                    {employee.firstName} {employee.lastName}
+                  </Typography>
+                  <Typography variant="subtitle1" sx={{ color: '#555' }}>
+                    {employee.department} Department
+                  </Typography>
+                </Box>
+              </Box>
+
+              {/* Personal Information Section */}
+              <Box sx={{ mb: 4 }}>
+                <Typography variant="h6" sx={{ 
+                  fontWeight: 500, 
+                  mb: 2,
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: 1
+                }}>
+                  <Person fontSize="small" /> Personal Information
+                </Typography>
+                <List dense sx={{ 
+                  backgroundColor: '#f8f9fa',
+                  borderRadius: '8px',
+                  py: 0
+                }}>
+                  <ListItem>
+                    <ListItemIcon sx={{ minWidth: 36 }}>
+                      <Cake fontSize="small" />
+                    </ListItemIcon>
+                    <ListItemText 
+                      primary={`Date of Birth: ${employee.dob.toLocaleDateString()}`} 
+                    />
+                  </ListItem>
+                  <ListItem>
+                    <ListItemIcon sx={{ minWidth: 36 }}>
+                      <Person fontSize="small" />
+                    </ListItemIcon>
+                    <ListItemText 
+                      primary={`Gender: ${employee.gender}`} 
+                    />
+                  </ListItem>
+                </List>
+              </Box>
+
+              {/* Contact Information Section */}
+              <Box sx={{ mb: 4 }}>
+                <Typography variant="h6" sx={{ 
+                  fontWeight: 500, 
+                  mb: 2,
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: 1
+                }}>
+                  <Email fontSize="small" /> Contact Information
+                </Typography>
+                <List dense sx={{ 
+                  backgroundColor: '#f8f9fa',
+                  borderRadius: '8px',
+                  py: 0
+                }}>
+                  <ListItem>
+                    <ListItemIcon sx={{ minWidth: 36 }}>
+                      <Email fontSize="small" />
+                    </ListItemIcon>
+                    <ListItemText 
+                      primary={`Email: ${employee.email}`} 
+                    />
+                  </ListItem>
+                  <ListItem>
+                    <ListItemIcon sx={{ minWidth: 36 }}>
+                      <Phone fontSize="small" />
+                    </ListItemIcon>
+                    <ListItemText 
+                      primary={`Phone: ${employee.phone}`} 
+                    />
+                  </ListItem>
+                  <ListItem>
+                    <ListItemIcon sx={{ minWidth: 36 }}>
+                      <Home fontSize="small" />
+                    </ListItemIcon>
+                    <ListItemText 
+                      primary={`Address: ${employee.address}`} 
+                    />
+                  </ListItem>
+                </List>
+              </Box>
+
+              {/* Employment Details Section */}
+              <Box>
+                <Typography variant="h6" sx={{ 
+                  fontWeight: 500, 
+                  mb: 2,
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: 1
+                }}>
+                  <Work fontSize="small" /> Employment Details
+                </Typography>
+                <List dense sx={{ 
+                  backgroundColor: '#f8f9fa',
+                  borderRadius: '8px',
+                  py: 0
+                }}>
+                  <ListItem>
+                    <ListItemIcon sx={{ minWidth: 36 }}>
+                      <Work fontSize="small" />
+                    </ListItemIcon>
+                    <ListItemText 
+                      primary={
+                        <Box sx={{ display: 'flex', alignItems: 'center' }}>
+                          <span>Department: </span>
+                          <Chip 
+                            label={employee.department} 
+                            size="small"
+                            sx={{ 
+                              ml: 1,
+                              backgroundColor: '#bbdefb',
+                              color: '#0d47a1'
+                            }} 
+                          />
+                        </Box>
+                      } 
+                    />
+                  </ListItem>
+                </List>
+              </Box>
+            </Box>
+
+            {/* Right Side - Action Buttons */}
+            <Box sx={{ 
+              width: '220px',
+              display: 'flex',
+              flexDirection: 'column',
+              gap: 2
+            }}>
+              <Button
+                fullWidth
+                variant="contained"
+                startIcon={<Edit />}
+                onClick={handleEdit}
+                sx={{ 
+                  py: 1.5,
+                  backgroundColor: '#1a237e',
+                  '&:hover': {
+                    backgroundColor: '#303f9f'
+                  }
+                }}
+              >
+                Edit Profile
+              </Button>
+              <Button
+                fullWidth
+                variant="contained"
+                onClick={handleStatusToggle}
+                sx={{ 
+                  py: 1.5,
+                  backgroundColor: isActive ? '#f44336' : '#4caf50',
+                  '&:hover': {
+                    backgroundColor: isActive ? '#d32f2f' : '#388e3c'
+                  }
+                }}
+              >
+                {isActive ? 'Deactivate' : 'Activate'} Employee
+              </Button>
+            </Box>
+          </Box>
+        </Paper>
+      </Container>
+    </Box>
+  );
+};
+
+export default Profile;
