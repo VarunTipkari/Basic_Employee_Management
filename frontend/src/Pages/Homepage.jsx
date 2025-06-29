@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import {useNavigate} from 'react-router-dom';
 import {
   Box,
@@ -15,7 +15,6 @@ import {
   AppBar,
   Toolbar,
   Container,
-  CircularProgress
 } from '@mui/material';
 import { Add } from '@mui/icons-material';
 import { format } from 'date-fns';
@@ -97,12 +96,22 @@ const Homepage = () => {
                 <TableCell>Department</TableCell>
               </TableRow>
             </TableHead>
-            <TableBody>
-              { loading ? 
-              <Box sx={{ display: 'flex', justifyContent: 'center', py: 5 }}>
-                            <CircularProgress />
-                          </Box>
-              : employees.map((employee) => (
+            {
+              loading ? 
+              <TableBody>
+                <TableRow>
+                  <TableCell><Skeleton count={4} /></TableCell>
+                  <TableCell><Skeleton count={4} /></TableCell>
+                  <TableCell><Skeleton count={4} /></TableCell>
+                  <TableCell><Skeleton count={4} /></TableCell>
+                  <TableCell><Skeleton count={4} /></TableCell>
+                  <TableCell><Skeleton count={4} /></TableCell>
+                  <TableCell><Skeleton count={4} /></TableCell>
+                </TableRow>
+              </TableBody>
+              : <TableBody>
+              { 
+               employees.map((employee) => (
                 <TableRow
                   key={employee._id}
                   onClick={() => handleRowClick(employee._id)}
@@ -139,6 +148,8 @@ const Homepage = () => {
                 </TableRow>
               ))}
             </TableBody>
+            }
+            
           </Table>
 
           {/* Empty state */}

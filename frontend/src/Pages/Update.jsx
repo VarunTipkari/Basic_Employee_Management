@@ -18,6 +18,7 @@ import {
 } from '@mui/material';
 import { ArrowBack } from '@mui/icons-material';
 import { useForm } from 'react-hook-form';
+import Skeleton from 'react-loading-skeleton';
 
 const Update = () => {
   const { employeeId } = useParams();
@@ -80,14 +81,13 @@ const Update = () => {
           </Typography>
           <Divider sx={{ mb: 4 }} />
 
-          {loading ? (
-            <Box sx={{ display: 'flex', justifyContent: 'center', py: 5 }}>
-              <CircularProgress />
-            </Box>
-          ) : (
+          { (
             <form onSubmit={handleSubmit(onSubmit)}>
               {/* Name Section */}
-              <Box sx={{ display: 'flex', gap: 3, mb: 3 }}>
+              {
+                loading ? <Skeleton height={30} style={{marginBottom : 10}} /> 
+                : 
+                <Box sx={{ display: 'flex', gap: 3, mb: 3 }}>
                 <TextField
                   fullWidth
                   label="First Name"
@@ -105,9 +105,13 @@ const Update = () => {
                   helperText={errors.LastName?.message}
                 />
               </Box>
+              }
+              
 
               {/* Personal Info Section */}
-              <Box sx={{ display: 'flex', gap: 3, mb: 3 }}>
+              {
+                loading ? <Skeleton height={30} style={{marginBottom : 10}} /> 
+                : <Box sx={{ display: 'flex', gap: 3, mb: 3 }}>
                 <TextField
                   fullWidth
                   label="Date of Birth"
@@ -132,8 +136,13 @@ const Update = () => {
                   <MenuItem value="Other">Other</MenuItem>
                 </TextField>
               </Box>
+              }
+              
 
               {/* Contact Info Section */}
+              {
+                loading ? <Skeleton height={30} style={{marginBottom : 10}} />
+                :
               <Box sx={{ display: 'flex', gap: 3, mb: 3 }}>
                 <TextField
                   fullWidth
@@ -159,8 +168,12 @@ const Update = () => {
                   helperText={errors.Phone?.message}
                 />
               </Box>
+              }
 
               {/* Address Section */}
+              {
+                loading ? <Skeleton height={30} style={{marginBottom : 10}} />
+                :
               <Box sx={{ mb: 3 }}>
                 <TextField
                   fullWidth
@@ -173,8 +186,12 @@ const Update = () => {
                   helperText={errors.Address?.message}
                 />
               </Box>
+              }
 
               {/* Department Section */}
+              {
+                loading ? <Skeleton height={30} style={{marginBottom : 10}} /> 
+                :
               <Box sx={{ mb: 4 }}>
                 <TextField
                   fullWidth
@@ -193,12 +210,13 @@ const Update = () => {
                   ))}
                 </TextField>
               </Box>
+              }
 
               <Divider sx={{ mb: 3 }} />
 
               {/* Form Actions */}
               <Box sx={{ display: 'flex', justifyContent: 'flex-end', gap: 2 }}>
-                <Button variant="outlined" color="primary" sx={{ px: 4 }} onClick={() => navigate('/Profile')}>
+                <Button variant="outlined" color="primary" sx={{ px: 4 }} onClick={() => navigate(`/Profile/${employeeId}`)}>
                   Cancel
                 </Button>
                 <Button type="submit" variant="contained" color="primary" sx={{ px: 4 }}>

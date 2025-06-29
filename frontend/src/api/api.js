@@ -1,7 +1,6 @@
 import axios from 'axios'
-require('dotenv').config();
 
-const BACKEND_URI = process.env.BACKEND_URI;
+const BACKEND_URI = import.meta.env.VITE_BACKEND_URI;
 
 export const GetEmployeeList = async () => {
     try{

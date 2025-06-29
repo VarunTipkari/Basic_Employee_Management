@@ -28,6 +28,7 @@ import {
   Work
 } from '@mui/icons-material';
 import { deactivateEmployee, GetEmployeeDetails } from '../api/api';
+import Skeleton from 'react-loading-skeleton';
 
 const Profile = () => {
   
@@ -119,13 +120,6 @@ const Profile = () => {
 
           {/* Profile Content */}
           <Box sx={{ display: 'flex', gap: 4 }}>
-            {/* Left Side - Employee Info */}
-            {
-              loading ? 
-              <Box sx={{ display: 'flex', justifyContent: 'center', py: 5 }}>
-                            <CircularProgress />
-                          </Box>
-                           : 
               <Box sx={{ flex: 1 }}>
               {/* Employee Avatar and Name */}
               <Box sx={{ 
@@ -143,14 +137,14 @@ const Profile = () => {
                   bgcolor: '#1a237e',
                   fontSize: '2.5rem'
                 }}>
-                  {user.FirstName.charAt(0)}{user.LastName.charAt(0)}
+                  {loading ? 'A' : user.FirstName.charAt(0)}{loading ? 'X' : user.LastName.charAt(0)}
                 </Avatar>
                 <Box>
                   <Typography variant="h4" sx={{ fontWeight: 500 }}>
-                    {user.FirstName} {user.LastName}
+                    {loading ? <Skeleton /> : user.FirstName + " " + user.LastName }
                   </Typography>
                   <Typography variant="subtitle1" sx={{ color: '#555' }}>
-                    {user.Department} Department
+                    {loading ? <Skeleton /> : user.Department + " Department" }
                   </Typography>
                 </Box>
               </Box>
@@ -176,7 +170,7 @@ const Profile = () => {
                       <Cake fontSize="small" />
                     </ListItemIcon>
                     <ListItemText 
-                      primary={`Date of Birth: ${user.DOB.substring(0,10)}`} 
+                      primary={loading ? <Skeleton /> : `Date of Birth: ${user.DOB.substring(0,10)}`} 
                     />
                   </ListItem>
                   <ListItem>
@@ -184,7 +178,7 @@ const Profile = () => {
                       <Person fontSize="small" />
                     </ListItemIcon>
                     <ListItemText 
-                      primary={`Gender: ${user.Gender}`} 
+                      primary={loading ? <Skeleton /> : `Gender: ${user.Gender}`} 
                     />
                   </ListItem>
                 </List>
@@ -211,7 +205,7 @@ const Profile = () => {
                       <Email fontSize="small" />
                     </ListItemIcon>
                     <ListItemText 
-                      primary={`Email: ${user.Email}`} 
+                      primary={loading ? <Skeleton /> :`Email: ${user.Email}`} 
                     />
                   </ListItem>
                   <ListItem>
@@ -219,7 +213,7 @@ const Profile = () => {
                       <Phone fontSize="small" />
                     </ListItemIcon>
                     <ListItemText 
-                      primary={`Phone: ${user.Phone}`} 
+                      primary={loading ? <Skeleton /> : `Phone: ${user.Phone}`} 
                     />
                   </ListItem>
                   <ListItem>
@@ -227,7 +221,7 @@ const Profile = () => {
                       <Home fontSize="small" />
                     </ListItemIcon>
                     <ListItemText 
-                      primary={`Address: ${user.Address}`} 
+                      primary={loading ? <Skeleton /> : `Address: ${user.Address}`} 
                     />
                   </ListItem>
                 </List>
@@ -257,7 +251,10 @@ const Profile = () => {
                       primary={
                         <Box sx={{ display: 'flex', alignItems: 'center' }}>
                           <span>Department: </span>
-                          <Chip 
+
+                         {
+                          loading ? <Skeleton /> 
+                          :  <Chip 
                             label={user.Department} 
                             size="small"
                             sx={{ 
@@ -266,6 +263,7 @@ const Profile = () => {
                               color: '#0d47a1'
                             }} 
                           />
+                         }
                         </Box>
                       } 
                     />
@@ -273,9 +271,8 @@ const Profile = () => {
                 </List>
               </Box>
             </Box>
-            }
 
-            {/* Right Side - Action Buttons */}
+           {/* Right Side - Action Buttons */}
             <Box sx={{ 
               width: '220px',
               display: 'flex',
